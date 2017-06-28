@@ -16,9 +16,18 @@ var count = 0;
 var highscoreboard;
 var highscore = 0;
 
+
+// generate random number between min and max
+function randomInt(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
 var snakeColor = "orange";
-var headX = 5;
-var headY = 0;
+var headX = randomInt(0, columns);
+var headY = randomInt(0, rows);
 var tail;
 var snake = [{x: 0, y: 0}];
 var direction = "right";
@@ -26,7 +35,9 @@ var direction = "right";
 
 var nuggetX, nuggetY;
 
-
+var bounded = false;
+var relay = document.getElementById("relay");
+var mySwitch = document.getElementById("switch");
 
 
 
@@ -53,12 +64,7 @@ var nuggetX, nuggetY;
 
 
 
-// generate random number between min and max
-function randomInt(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min)) + min;
-}
+
   // draw grid line
 function drawLine(fromX, fromY, toX, toY, drawColor) {
   ctx.strokeStyle = drawColor;
@@ -110,6 +116,7 @@ window.onload = function() {
   // set 2D canvas context
   ctx = canvas.getContext('2d');
 
+
   // create first nugget, not yet drawn to canvas
   spawnRandomNugget();
 
@@ -120,6 +127,7 @@ window.onload = function() {
     headX = Math.floor(columns/2);
     headY = Math.floor(rows/2);
     snake = [{x: headX, y: headY}];
+    direction = "right";
     spawnRandomNugget();
 
     // update the user's read-out
@@ -179,7 +187,9 @@ window.onload = function() {
     }
 
     // handle bound escapes
-    if (headX >= columns) {
+    if (bounded === true && (headX >= columns || headX < 0 || headY === rows || headY < 0)) {
+      gameReset();
+    } else if (headX >= columns) {
       headX = 0;
     } else if (headX < 0) {
       headX = columns - 1;
@@ -297,5 +307,32 @@ window.onload = function() {
 
 
   });
+
+  mySwitch.addEventListener("click", function() {
+    if (bounded === false) {
+      bounded = true;
+
+      setTimeout(function() {relay.innerText = "ON";}, 150);
+      relay.style.transform = "translateX(60%) translateY(-50%)";
+
+      mySwitch.style.transform = "translateX(150%)";
+      mySwitch.style.boxShadow = "-1px 0px 0px 0 rgba(0,0,0,0.2)";
+      mySwitch.style.borderRight = "0";
+      mySwitch.style.borderLeft = "1px solid #444";
+
+    } else {
+      bounded = false;
+
+      setTimeout(function() {relay.innerText = "OFF";}, 150);
+      relay.style.transform = "translateX(155%) translateY(-50%)";
+
+      mySwitch.style.transform = "translateX(0%)";
+      mySwitch.style.boxShadow = "1px 0px 0px 0 rgba(0,0,0,0.2)";
+      mySwitch.style.borderRight = "1px solid #444";
+      mySwitch.style.borderLeft = "0";
+
+    }
+  });
+
 
 };
