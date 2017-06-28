@@ -250,27 +250,47 @@ window.onload = function() {
 
     switch (e.keyCode) {
       case 37: // disallow reversing direction unless of length 1
-        if (direction !== "right" || snake.length === 1) {
+        if (snake[snake.length-2]) {
+
+          if (snake[snake.length-1].y !== snake[snake.length-2].y) {
+            direction = "left";
+          }
+        } else {
           direction = "left";
         }
       break;
 
       case 38: // disallow reversing direction unless of length 1
-        if (direction !== "down" || snake.length === 1) {
+      if (snake[snake.length-2]) {
+
+        if (snake[snake.length-1].x !== snake[snake.length-2].x) {
           direction = "up";
         }
+      } else {
+        direction = "up";
+      }
       break;
 
       case 39: // disallow reversing direction unless of length 1
-        if (direction !== "left" || snake.length === 1) {
+      if (snake[snake.length-2]) {
+
+        if (snake[snake.length-1].y !== snake[snake.length-2].y) {
           direction = "right";
         }
+      } else {
+        direction = "right";
+      }
       break;
 
       case 40: // disallow reversing direction unless of length 1
-        if (direction !== "up" || snake.length === 1) {
+      if (snake[snake.length-2]) {
+
+        if (snake[snake.length-1].x !== snake[snake.length-2].x) {
           direction = "down";
         }
+      } else {
+        direction = "down";
+      }
       break;
 
       case 32:

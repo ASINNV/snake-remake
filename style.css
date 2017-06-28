@@ -2,6 +2,7 @@ body {
   font-family: "Open Sans";
   text-align: center;
   background: #333;
+  cursor: default;
 }
 canvas {
   border: 2px solid orange;
@@ -102,5 +103,4 @@ canvas {
   z-index: -1;
   transform: translateX(155%) translateY(-50%);
   transition: transform .3s ease-in-out;
-  cursor: default;
 }
